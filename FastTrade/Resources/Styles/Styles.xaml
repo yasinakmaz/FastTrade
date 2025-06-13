@@ -1,0 +1,203 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xaml-comp compile="true" ?>
+<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+    xmlns:chart="clr-namespace:Syncfusion.Maui.Charts;assembly=Syncfusion.Maui.Charts"
+    xmlns:datagrid="clr-namespace:Syncfusion.Maui.DataGrid;assembly=Syncfusion.Maui.DataGrid"
+    xmlns:listview="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
+    xmlns:inputs="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+    xmlns:pdfviewer="clr-namespace:Syncfusion.Maui.PdfViewer;assembly=Syncfusion.Maui.PdfViewer"
+    xmlns:popup="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
+    xmlns:tabview="clr-namespace:Syncfusion.Maui.TabView;assembly=Syncfusion.Maui.TabView"
+    xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+    xmlns:signaturepad="clr-namespace:Syncfusion.Maui.SignaturePad;assembly=Syncfusion.Maui.SignaturePad">
+
+    <Style TargetType="Page" ApplyToDerivedTypes="True">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource PrimaryDark}, Light={StaticResource PrimaryWhite}}"/>
+    </Style>
+
+    <Style TargetType="Border" x:Key="BrdStandart">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource SecondaryDark}, Light={StaticResource SecondaryWhite}}"/>
+        <Setter Property="Stroke" Value="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}"/>
+        <Setter Property="StrokeShape" Value="RoundRectangle 10"/>
+    </Style>
+
+    <Style TargetType="Label" x:Key="LblHeader">
+        <Setter Property="FontFamily" Value="EthosNovaBold"/>
+        <Setter Property="FontSize" Value="17"/>
+        <Setter Property="VerticalOptions" Value="Center"/>
+    </Style>
+
+    <Style TargetType="buttons:SfRadioButton" x:Key="SfRadioBtn">
+        <Setter Property="CheckedColor" Value="{AppThemeBinding Dark={StaticResource White},Light={StaticResource Black}}"/>
+        <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource White},Light={StaticResource Black}}"/>
+        <Setter Property="FontFamily" Value="EthosNovaBold"/>
+    </Style>
+
+    <Style TargetType="inputs:SfMaskedEntry" x:Key="TxtMsc">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource ThirdyDark}, Light={StaticResource ThirdyWhite}}"/>
+        <Setter Property="ClearButtonColor" Value="{AppThemeBinding Dark={StaticResource White},Light={StaticResource Black}}"/>
+        <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource White},Light={StaticResource Black}}"/>
+        <Setter Property="FontFamily" Value="EthosNovaBold"/>
+        <Setter Property="ClearButtonVisibility" Value="WhileEditing"/>
+        <Setter Property="Keyboard" Value="Numeric"/>
+        <Setter Property="ReturnType" Value="Next"/>
+    </Style>
+
+    <Style TargetType="inputs:SfNumericEntry" x:Key="TxtNmc">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource ThirdyDark}, Light={StaticResource ThirdyWhite}}"/>
+        <Setter Property="ClearButtonColor" Value="{AppThemeBinding Dark={StaticResource White},Light={StaticResource Black}}"/>
+        <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource White},Light={StaticResource Black}}"/>
+        <Setter Property="FontFamily" Value="EthosNovaBold"/>
+        <Setter Property="ReturnType" Value="Next"/>
+    </Style>
+
+    <Style TargetType="buttons:SfCheckBox" x:Key="ChkStd">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource ThirdyDark},Light={StaticResource ThirdyWhite}}"/>
+        <Setter Property="CheckedColor" Value="{StaticResource Blue}"/>
+        <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource White},Light={StaticResource Black}}"/>
+        <Setter Property="TickColor" Value="{StaticResource White}"/>
+        <Setter Property="UncheckedColor" Value="{AppThemeBinding Dark={StaticResource White},Light={StaticResource Black}}"/>
+        <Setter Property="FontFamily" Value="EthosNovaBold"/>
+    </Style>
+
+    <Style TargetType="Entry" x:Key="TxtEnt">
+        <Setter Property="ClearButtonVisibility" Value="WhileEditing"/>
+        <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource White},Light={StaticResource Black}}"/>
+        <Setter Property="FontFamily" Value="EthosNovaBold"/>
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource ThirdyDark}, Light={StaticResource ThirdyWhite}}"/>
+        <Setter Property="ReturnType" Value="Next"/>
+    </Style>
+
+    <Style TargetType="Button" x:Key="BtnStandart">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource ThirdyDark}, Light={StaticResource ThirdyWhite}}"/>
+        <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource White},Light={StaticResource Black}}"/>
+        <Setter Property="FontFamily" Value="EthosNovaBold"/>
+    </Style>
+
+    <Style TargetType="Button" x:Key="BtnMenu">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource ThirdyDark}, Light={StaticResource ThirdyWhite}}"/>
+        <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource White},Light={StaticResource Black}}"/>
+        <Setter Property="FontFamily" Value="EthosNovaBold"/>
+        <Setter Property="ContentLayout" Value="Right"/>
+        <Setter Property="ImageSource" Value="entered.png"/>
+    </Style>
+
+    <Style TargetType="buttons:SfButton" x:Key="SfBtn">
+        <Setter Property="Background" Value="{AppThemeBinding Dark={StaticResource FourtyDark}, Light={StaticResource ThirdyWhite}}"/>
+        <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource White},Light={StaticResource Black}}"/>
+        <Setter Property="FontFamily" Value="EthosNovaBold"/>
+        <Setter Property="CornerRadius" Value="5"/>
+        <Setter Property="EnableRippleEffect" Value="True"/>
+    </Style>
+
+    <Style TargetType="inputs:SfAutocomplete" x:Key="TxtAutoSuggest">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource ThirdyDark}, Light={StaticResource ThirdyWhite}}"/>
+        <Setter Property="DropDownBackground" Value="{AppThemeBinding Dark={StaticResource ThirdyDark}, Light={StaticResource ThirdyWhite}}"/>
+        <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource White},Light={StaticResource Black}}"/>
+        <Setter Property="DropDownItemTextColor" Value="{AppThemeBinding Dark={StaticResource White},Light={StaticResource Black}}"/>
+        <Setter Property="SelectedDropDownItemBackground" Value="{StaticResource Blue}"/>
+        <Setter Property="ClearButtonIconColor" Value="{AppThemeBinding Dark={StaticResource White},Light={StaticResource Black}}"/>
+        <Setter Property="FontFamily" Value="EthosNovaBold"/>
+        <Setter Property="ReturnType" Value="Next"/>
+    </Style>
+
+    <Style TargetType="inputs:SfComboBox" x:Key="CmbSfStd">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource ThirdyDark}, Light={StaticResource ThirdyWhite}}"/>
+        <Setter Property="DropDownIconColor" Value="{AppThemeBinding Dark={StaticResource White},Light={StaticResource Black}}"/>
+        <Setter Property="DropDownItemTextColor" Value="{AppThemeBinding Dark={StaticResource White},Light={StaticResource Black}}"/>
+        <Setter Property="DropDownBackground" Value="{AppThemeBinding Dark={StaticResource ThirdyDark}, Light={StaticResource ThirdyWhite}}"/>
+        <Setter Property="SelectedDropDownItemBackground" Value="{StaticResource Blue}"/>
+        <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource White},Light={StaticResource Black}}"/>
+        <Setter Property="ClearButtonIconColor" Value="{AppThemeBinding Dark={StaticResource White},Light={StaticResource Black}}"/>
+        <Setter Property="FontFamily" Value="EthosNovaBold"/>
+        <Setter Property="ReturnType" Value="Next"/>
+    </Style>
+
+    <Style TargetType="syncfusion:SfBusyIndicator" x:Key="ActLoad">
+        <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}"/>
+        <Setter Property="FontFamily" Value="EthosNovaBold"/>
+    </Style>
+
+    <Style TargetType="datagrid:SfDataGrid" x:Key="DataGridStandart">
+        <Setter Property="AutoGenerateColumnsMode" Value="None"/>
+        <Setter Property="SelectionMode" Value="Single"/>
+        <Setter Property="NavigationMode" Value="Row"/>
+        <Setter Property="ColumnWidthMode" Value="Auto"/>
+        <Setter Property="HorizontalScrollBarVisibility" Value="Always"/>
+        <Setter Property="SortingMode" Value="Multiple"/>
+        <Setter Property="AllowResizingColumns" Value="True"/>
+        <Setter Property="AllowTriStateSorting" Value="True"/>
+        <Setter Property="ShowSortNumbers" Value="True"/>
+        <Setter Property="AutoExpandGroups" Value="False"/>
+        <Setter Property="GroupingMode" Value="Single"/>
+        <Setter Property="AllowDraggingColumn" Value="True"/>
+        <Setter Property="AllowDraggingRow" Value="True"/>
+        <Setter Property="GridLinesVisibility" Value="Both"/>
+        <Setter Property="HeaderGridLinesVisibility" Value="Both"/>
+        <Setter Property="EnableDataVirtualization" Value="False"/>
+        <Setter Property="DefaultStyle">
+            <datagrid:DataGridStyle ColumnResizingIndicatorColor="{StaticResource Blue}" 
+                                    SortIconColor="{StaticResource Blue}" 
+                                    ColumnDraggingIndicatorLineColor="{StaticResource Blue}"
+                                    ColumnDragViewBackgroundColor="{AppThemeBinding Dark={StaticResource ThirdyWhite},Light={StaticResource ThirdyDark}}"
+                                    ColumnDragViewTextColor="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource White}}"
+                                    RowDraggingIndicatorLineColor="{StaticResource Blue}"
+                                    RowDragViewBackgroundColor="{AppThemeBinding Dark={StaticResource ThirdyWhite},Light={StaticResource ThirdyDark}}"
+                                    RowDragViewTextColor="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource White}}"
+                                    HeaderRowBackground="{AppThemeBinding Dark={StaticResource SecondaryDark}, Light={StaticResource SecondaryWhite}}"
+                                    HeaderRowTextColor="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}"
+                                    HeaderGridLineColor="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}"
+                                    RowBackground="{AppThemeBinding Dark={StaticResource SecondaryDark}, Light={StaticResource SecondaryWhite}}"
+                                    RowTextColor="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}"
+                                    AlternateRowBackground="{StaticResource Blue}"
+                                    UnboundRowBackground="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}"
+                                    SelectionBackground="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}"
+                                    SelectedRowTextColor="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource White}}"/>
+        </Setter>
+        <Setter Property="EmptyView">
+            <Setter.Value>
+                <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                    <Label Text="🙁" FontSize="Header" VerticalOptions="Center" HorizontalOptions="Center"/>
+                    <Label VerticalOptions="Center" HorizontalOptions="Center" Text="Burası Boş Görünüyor Lütfen Listeleyiniz!" Style="{StaticResource LblHeader}"/>
+                </StackLayout>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="popup:SfPopup" x:Key="PopupStd">
+        <Setter Property="PopupStyle">
+            <Setter.Value>
+                <popup:PopupStyle PopupBackground="{AppThemeBinding Dark={StaticResource PrimaryDark}, Light={StaticResource PrimaryWhite}}" HeaderTextColor="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="IsFullScreen" Value="True"/>
+        <Setter Property="ShowCloseButton" Value="True"/>
+        <Setter Property="AnimationMode" Value="Zoom"/>
+    </Style>
+
+    <Style TargetType="tabview:SfTabItem" x:Key="TabItemStl">
+        <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}"/>
+        <Setter Property="FontFamily" Value="EthosNovaBold"/>
+        <Setter Property="ImagePosition" Value="Left"/>
+        <Setter Property="ImageSize" Value="50"/>
+    </Style>
+
+    <Style TargetType="tabview:SfTabView" x:Key="TabViewStl">
+        <Setter Property="ScrollButtonBackground" Value="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}"/>
+        <Setter Property="ScrollButtonColor" Value="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource White}}"/>
+        <Setter Property="ContentTransitionDuration" Value="200"/>
+        <Setter Property="TabBarHeight" Value="40"/>
+        <Setter Property="HeaderHorizontalTextAlignment" Value="Center"/>
+        <Setter Property="TabBarPlacement" Value="Bottom"/>
+        <Setter Property="EnableSwiping" Value="True"/>
+        <Setter Property="IndicatorPlacement" Value="Fill"/>
+        <Setter Property="IndicatorCornerRadius" Value="5"/>
+        <Setter Property="IndicatorStrokeThickness" Value="2"/>
+        <Setter Property="IndicatorBackground" Value="{StaticResource Blue}"/>
+        <Setter Property="IndicatorWidthMode" Value="Fit"/>
+        <Setter Property="EnableVirtualization" Value="False"/>
+    </Style>
+</ResourceDictionary>

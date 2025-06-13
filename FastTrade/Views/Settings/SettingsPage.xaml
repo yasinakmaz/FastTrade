@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FastTrade.Views.Settings.SettingsPage"
+             xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+             xmlns:chart="clr-namespace:Syncfusion.Maui.Charts;assembly=Syncfusion.Maui.Charts"
+             xmlns:datagrid="clr-namespace:Syncfusion.Maui.DataGrid;assembly=Syncfusion.Maui.DataGrid"
+             xmlns:listview="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
+             xmlns:inputs="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+             xmlns:pdfviewer="clr-namespace:Syncfusion.Maui.PdfViewer;assembly=Syncfusion.Maui.PdfViewer"
+             xmlns:popup="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
+             xmlns:tabview="clr-namespace:Syncfusion.Maui.TabView;assembly=Syncfusion.Maui.TabView"
+             xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+             xmlns:signaturepad="clr-namespace:Syncfusion.Maui.SignaturePad;assembly=Syncfusion.Maui.SignaturePad"
+             xmlns:vmsettings="clr-namespace:FastTrade.ViewModels.Settings"
+             Title="SettingsPage">
+
+    <Grid Margin="10">
+        <VerticalStackLayout Spacing="10">
+
+            <Label Style="{StaticResource LblHeader}" Text="MSSQL AYARLARI"/>
+
+            <Grid Grid.Column="0" ColumnDefinitions="*,*,*" ColumnSpacing="10">
+                <Entry x:Name="TxtMssqlServer" Text="{Binding Mssqlserver}" Grid.Column="0" Style="{StaticResource TxtEnt}" Placeholder="MSSQL SERVER IP"/>
+                <Entry x:Name="TxtMssqlUserName" Text="{Binding Mssqlusername}" Grid.Column="1" Style="{StaticResource TxtEnt}" Placeholder="MSSQL SERVER USER NAME"/>
+                <Entry x:Name="TxtMssqlPassword" Text="{Binding Mssqlpassword}" Grid.Column="2" Style="{StaticResource TxtEnt}" Placeholder="MSSQL SERVER PASSWORD"/>
+            </Grid>
+
+            <Grid Grid.Column="0" ColumnDefinitions="*,*,*" ColumnSpacing="10">
+                <buttons:SfButton x:Name="BtnCheckMssql" Command="{Binding CheckDatabaseCommand}" Grid.Column="0" Style="{StaticResource SfBtn}" Text="Bağlantıyı Sağla"/>
+                <inputs:SfComboBox x:Name="CmbMssqlData" SelectedValue="{Binding Mssqldata}" Text="{Binding Mssqldata}" ItemsSource="{Binding databases}" Grid.Column="1" Style="{StaticResource CmbSfStd}" Placeholder="MSSQL VERİTABANI SEÇİMİ"/>
+                <buttons:SfButton x:Name="BtnMssqlSettingsSave" Command="{Binding SaveMssqlSettingsCommand}" Grid.Column="2" Style="{StaticResource SfBtn}" Text="MSSQL AYARLARINI KAYDET"/>
+            </Grid>
+
+            <Label Style="{StaticResource LblHeader}" Text="HOST AYARLARI"/>
+
+            <Grid Grid.Column="0" ColumnDefinitions="*,*,*" ColumnSpacing="10">
+                <Entry x:Name="TxtHostIP" Text="{Binding Hostip}" Grid.Column="0" Style="{StaticResource TxtEnt}" Placeholder="HOST IP"/>
+                <inputs:SfNumericEntry CustomFormat="0" x:Name="TxtHostPort" Value="{Binding Hostport}" Grid.Column="1" Style="{StaticResource TxtNmc}" Placeholder="HOST PORT"/>
+                <inputs:SfComboBox x:Name="CmbHostDefaultPrinter" SelectedValue="{Binding Defaultprinter}" Text="{Binding Defaultprinter}" ItemsSource="{Binding printers}" Grid.Column="2" Style="{StaticResource CmbSfStd}" Placeholder="Varsayılan Yazıcı"/>
+            </Grid>
+
+            <Grid ColumnDefinitions="*,*,*" ColumnSpacing="10">
+
+                <Grid Grid.Column="0" ColumnDefinitions="*,auto" ColumnSpacing="10">
+                    <inputs:SfComboBox x:Name="CmbDefaultDesign" SelectedValue="{Binding Defaultdesign}" Text="{Binding Defaultdesign}" Style="{StaticResource CmbSfStd}" Placeholder="Varsayılan Tasarım"/>
+                    <buttons:SfButton x:Name="BtnDefaultDesign" Command="{Binding GetDesignFilePickerCommand}" Grid.Column="1" Style="{StaticResource SfBtn}" Text="Seç"/>
+                </Grid>
+
+                <buttons:SfButton x:Name="BtnFastReportDesignChange" Grid.Column="1" Style="{StaticResource SfBtn}" Text="Tasarım Düzenle"/>
+
+                <buttons:SfButton x:Name="BtnHostConnectionTest" Grid.Column="2" Style="{StaticResource SfBtn}" Text="Bağlantı Testi"/>
+            </Grid>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                <buttons:SfButton Grid.Column="0" x:Name="BtnHostSaveSettings" Command="{Binding SaveHostSettingsCommand}" Style="{StaticResource SfBtn}" Text="Host Ayarlarını Kaydet"/>
+                <buttons:SfButton Grid.Column="1" x:Name="BtnRefreshPrinter" Command="{Binding LoadRefreshPrinter}" Style="{StaticResource SfBtn}" Text="Yazıcıları Listele"/>
+            </Grid>
+
+            <Label Style="{StaticResource LblHeader}" Text="Uygulama Ayarları"/>
+
+            <HorizontalStackLayout Spacing="10">
+                <buttons:SfCheckBox x:Name="ChkFullScreen" IsChecked="{Binding Fullscreen}" Style="{StaticResource ChkStd}" Text="Tam Ekran"/>
+            </HorizontalStackLayout>
+
+            <buttons:SfButton x:Name="BtnAppSettingSave" Command="{Binding SaveAppSettingsCommand}" Style="{StaticResource SfBtn}" Text="Uygulama Ayarlarını Kaydet"/>
+
+        </VerticalStackLayout>
+    </Grid>
+
+</ContentPage>
