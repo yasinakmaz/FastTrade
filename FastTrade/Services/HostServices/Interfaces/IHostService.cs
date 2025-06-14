@@ -1,6 +1,6 @@
 ﻿namespace FastTrade.Services.HostServices.Interfaces
 {
-    public interface IHostService
+    public interface IHostService : IDisposable
     {
         bool IsConnected { get; }
         string HostIP { get; }

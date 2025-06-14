@@ -45,6 +45,9 @@ global using FastTrade.Services.HostServices.Enums;
 global using FastTrade.Services.HostServices.Events;
 global using FastTrade.Services.HostServices.Models;
 global using FastTrade.Services.HostServices;
+global using FastTrade.Services.Settings;
+global using FastTrade.Models.Product;
+global using FastTrade.Data;
 
 #if WINDOWS
 global using System.Drawing.Printing;

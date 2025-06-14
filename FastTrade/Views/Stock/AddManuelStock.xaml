@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FastTrade.Views.Stock.AddManuelStock"
+             xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+             xmlns:chart="clr-namespace:Syncfusion.Maui.Charts;assembly=Syncfusion.Maui.Charts"
+             xmlns:datagrid="clr-namespace:Syncfusion.Maui.DataGrid;assembly=Syncfusion.Maui.DataGrid"
+             xmlns:listview="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
+             xmlns:inputs="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+             xmlns:pdfviewer="clr-namespace:Syncfusion.Maui.PdfViewer;assembly=Syncfusion.Maui.PdfViewer"
+             xmlns:popup="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
+             xmlns:tabview="clr-namespace:Syncfusion.Maui.TabView;assembly=Syncfusion.Maui.TabView"
+             xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+             xmlns:signaturepad="clr-namespace:Syncfusion.Maui.SignaturePad;assembly=Syncfusion.Maui.SignaturePad"
+             xmlns:vmStock="clr-namespace:FastTrade.ViewModels.Stock"
+             x:DataType="vmStock:CreateManuelProductViewModel"
+             Title="AddManuelStock">
+
+    <ContentPage.BindingContext>
+        <vmStock:CreateManuelProductViewModel/>
+    </ContentPage.BindingContext>
+
+    <Grid Margin="10">
+        <VerticalStackLayout Spacing="10">
+
+            <Label Style="{StaticResource LblHeader}" Text="Manuel Stok Kartı Açma"/>
+
+            <Grid ColumnDefinitions="*,*,*" ColumnSpacing="10">
+                <Entry Text="{Binding Guid}" Grid.Column="0" Style="{StaticResource TxtEnt}" Placeholder="GUID (Benzersiz Kod)"/>
+
+                <Entry Text="{Binding Code}" Grid.Column="1" Style="{StaticResource TxtEnt}" Placeholder="Stok Kodu"/>
+
+                <Entry Text="{Binding Name}" Grid.Column="2" Style="{StaticResource TxtEnt}" Placeholder="Stok Adı"/>
+            </Grid>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                <inputs:SfNumericEntry Grid.Column="0" Value="{Binding Price}" Style="{StaticResource TxtNmc}" CustomFormat="C2" Placeholder="Satış Fiyatı"/>
+                <inputs:SfNumericEntry Grid.Column="1" Value="{Binding PurchasePrice}" Style="{StaticResource TxtNmc}" CustomFormat="C2" Placeholder="Alış Fiyatı"/>
+            </Grid>
+
+            <Border Style="{StaticResource BrdStandart}">
+                <Grid RowDefinitions="auto,auto,*" RowSpacing="10" Margin="10">
+                    <Grid Grid.Row="0" ColumnDefinitions="*,*" HeightRequest="30">
+                        <Label Grid.Column="0" HorizontalOptions="Start" Style="{StaticResource LblHeader}" Text="Özel Kodlar"/>
+                        <buttons:SfButton Command="{Binding AddSpecialCodeCommand}" Grid.Column="1" HorizontalOptions="End" Style="{StaticResource SfBtn}" Text="Özel Kod Ekle"/>
+                    </Grid>
+
+                    <Border Grid.Row="1" Style="{StaticResource BrdStandart}"/>
+
+                    <Grid Grid.Row="2">
+                        <datagrid:SfDataGrid ItemsSource="{Binding SpecialCodes}" Style="{StaticResource DataGridStandart}" AllowEditing="True" ColumnWidthMode="Fill">
+                            <datagrid:SfDataGrid.Columns>
+                                <datagrid:DataGridTextColumn MappingName="SpecialcodeName" HeaderText="Özel Kod Adı"/>
+                                <datagrid:DataGridTextColumn MappingName="SpecialcodeCode" HeaderText="Özel Kod Değeri"/>
+                            </datagrid:SfDataGrid.Columns>
+                        </datagrid:SfDataGrid>
+                    </Grid>
+                </Grid>
+            </Border>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                <buttons:SfButton Grid.Column="0" Command="{Binding ClearFormCommand}" Style="{StaticResource SfBtn}" Text="Temizle"/>
+                <buttons:SfButton Grid.Column="1" Command="{Binding SaveProductCommand}" Style="{StaticResource SfBtn}" Text="Kaydet"/>
+            </Grid>
+        </VerticalStackLayout>
+    </Grid>
+    
+</ContentPage>

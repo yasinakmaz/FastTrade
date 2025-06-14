@@ -2,39 +2,6 @@
 {
     public partial class LoadPublicSettings : ObservableObject
     {
-        [ObservableProperty]
-        private string? mssqlserver;
-
-        [ObservableProperty]
-        private string? mssqlusername;
-
-        [ObservableProperty]
-        private string? mssqlpassword;
-
-        [ObservableProperty]
-        private string? mssqldata;
-
-        [ObservableProperty]
-        private string? hostip;
-
-        [ObservableProperty]
-        private string? hostport;
-
-        [ObservableProperty]
-        private string? defaultprinter;
-
-        [ObservableProperty]
-        private string? defaultdesign;
-
-        [ObservableProperty]
-        private bool fullscreen;
-
-        [ObservableProperty]
-        private bool isLoadingPrinters;
-
-        [ObservableProperty]
-        private bool isDatabaseConnecting;
-
         public LoadPublicSettings()
         {
             GetLoad();
@@ -44,17 +11,17 @@
         {
             try
             {
-                Mssqlserver = await SecureStorage.Default.GetAsync(PublicServices.MSSQLServer) ?? "";
-                Mssqlusername = await SecureStorage.Default.GetAsync(PublicServices.MSSQLUSERNAME) ?? "";
-                Mssqlpassword = await SecureStorage.Default.GetAsync(PublicServices.MSSQLPASSWORD) ?? "";
-                Mssqldata = await SecureStorage.Default.GetAsync(PublicServices.MSSQLDATABASE) ?? "";
-                Hostip = await SecureStorage.Default.GetAsync(PublicServices.HOSTIP) ?? "";
-                Hostport = await SecureStorage.Default.GetAsync(PublicServices.HOSTPORT) ?? "";
-                Defaultprinter = await SecureStorage.Default.GetAsync(PublicServices.HOSTDEFAULTPRINTER) ?? "";
-                Defaultdesign = await SecureStorage.Default.GetAsync(PublicServices.HOSTDEFAULTDESIGN) ?? "";
+                PublicSettings.MSSQLServer = await SecureStorage.Default.GetAsync(PublicServices.MSSQLServer) ?? "";
+                PublicSettings.MSSQLUSERNAME = await SecureStorage.Default.GetAsync(PublicServices.MSSQLUSERNAME) ?? "";
+                PublicSettings.MSSQLPASSWORD = await SecureStorage.Default.GetAsync(PublicServices.MSSQLPASSWORD) ?? "";
+                PublicSettings.MSSQLDATABASE = await SecureStorage.Default.GetAsync(PublicServices.MSSQLDATABASE) ?? "";
+                PublicSettings.HOSTIP = await SecureStorage.Default.GetAsync(PublicServices.HOSTIP) ?? "";
+                PublicSettings.HOSTPORT = await SecureStorage.Default.GetAsync(PublicServices.HOSTPORT) ?? "";
+                PublicSettings.HOSTDEFAULTPRINTER = await SecureStorage.Default.GetAsync(PublicServices.HOSTDEFAULTPRINTER) ?? "";
+                PublicSettings.HOSTDEFAULTDESIGN = await SecureStorage.Default.GetAsync(PublicServices.HOSTDEFAULTDESIGN) ?? "";
 
                 var fullscreenValue = await SecureStorage.Default.GetAsync(PublicServices.FULLSCREEN);
-                Fullscreen = !string.IsNullOrEmpty(fullscreenValue) && bool.Parse(fullscreenValue);
+                PublicSettings.FULLSCREEN = !string.IsNullOrEmpty(fullscreenValue) && bool.Parse(fullscreenValue);
             }
             catch (Exception ex)
             {

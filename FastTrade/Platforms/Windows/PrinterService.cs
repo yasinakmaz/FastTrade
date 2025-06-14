@@ -1,6 +1,4 @@
 ﻿#if WINDOWS
-using System.Drawing.Printing;
-using System.Management;
 
 namespace FastTrade.Platforms.Windows
 {
@@ -48,7 +46,7 @@ namespace FastTrade.Platforms.Windows
             });
         }
 
-        public async Task<string> GetDefaultPrinterAsync()
+        public async Task<string?> GetDefaultPrinterAsync()
         {
             return await Task.Run(() =>
             {
@@ -75,6 +73,43 @@ namespace FastTrade.Platforms.Windows
         {
             var printers = await GetAvailablePrintersAsync();
             return printers.Any(p => p.Equals(printerName, StringComparison.OrdinalIgnoreCase));
+        }
+
+        public async Task<bool> TestPrinterAsync(string printerName)
+        {
+            return await Task.Run(() =>
+            {
+                try
+                {
+                    var isAvailable = IsPrinterAvailableAsync(printerName).Result;
+                    if (!isAvailable)
+                        return false;
+
+                    using var searcher = new ManagementObjectSearcher($"SELECT * FROM Win32_Printer WHERE Name = '{printerName.Replace("'", "''")}'");
+                    foreach (ManagementObject printer in searcher.Get())
+                    {
+                        var printerStatus = printer["PrinterStatus"];
+                        var workOffline = (bool?)printer["WorkOffline"] ?? false;
+
+                        return !workOffline;
+                    }
+
+                    try
+                    {
+                        var settings = new PrinterSettings { PrinterName = printerName };
+                        return settings.IsValid;
+                    }
+                    catch
+                    {
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Yazıcı testi hatası: {ex.Message}");
+                    return false;
+                }
+            });
         }
 
         private static List<string> GetDefaultPrinters()

@@ -12,6 +12,6 @@
         public static string HOSTDEFAULTPRINTER = "";
         public static string HOSTDEFAULTDESIGN = "";
 
-        public static string FULLSCREEN = "";
+        public static bool FULLSCREEN;
     }
 }

@@ -19,10 +19,8 @@
                     fonts.AddFont("EthosNova-Regular.ttf", "EthosNovaRegular");
                 });
 
-            RegisterPlatformServices(builder.Services);
-
+            RegisterServices(builder.Services);
             RegisterViewModels(builder.Services);
-
             RegisterViews(builder.Services);
 
 #if DEBUG
@@ -31,11 +29,16 @@
             return builder.Build();
         }
 
-        private static void RegisterPlatformServices(IServiceCollection services)
+        private static void RegisterServices(IServiceCollection services)
         {
+            services.AddDbContext<ProductDbContext>();
+            services.AddSingleton<ISettingsService, FastTrade.Services.Settings.SettingsService>();
+            services.AddSingleton<IHostService, FastTrade.Services.HostServices.HostService>();
+            services.AddSingleton<FastTrade.Services.HostServices.EasyHostService>();
 #if WINDOWS
-            services.AddSingleton<IPrinterService, PrinterService>();
-            services.AddSingleton<IHostService, HostService>();
+            services.AddSingleton<IPrinterService, FastTrade.Platforms.Windows.PrinterService>();
+#else
+            services.AddSingleton<IPrinterService, DefaultPrinterService>();
 #endif
         }
 
@@ -48,6 +51,29 @@
         private static void RegisterViews(IServiceCollection services)
         {
             services.AddTransient<FastTrade.Views.Settings.SettingsPage>();
+        }
+    }
+
+    public class DefaultPrinterService : IPrinterService
+    {
+        public Task<List<string>> GetAvailablePrintersAsync()
+        {
+            return Task.FromResult(new List<string> { "Default Printer" });
+        }
+
+        public Task<string?> GetDefaultPrinterAsync()
+        {
+            return Task.FromResult<string?>("Default Printer");
+        }
+
+        public Task<bool> IsPrinterAvailableAsync(string printerName)
+        {
+            return Task.FromResult(true);
+        }
+
+        public Task<bool> TestPrinterAsync(string printerName)
+        {
+            return Task.FromResult(true);
         }
     }
 }

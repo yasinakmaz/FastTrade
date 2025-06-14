@@ -14,13 +14,6 @@
         /// <summary>
         /// Dosyadan veri okuyup host'a gönderir
         /// </summary>
-        /// <param name="filePath">JSON veya XML dosya yolu</param>
-        /// <param name="format">DataFormat.JSON veya DataFormat.XML</param>
-        /// <param name="printerName">Yazıcı adı (null ise varsayılan kullanılır)</param>
-        /// <param name="designPath">Tasarım dosyası yolu (null ise varsayılan kullanılır)</param>
-        /// <param name="design">Tasarım modunda açılsın mı?</param>
-        /// <param name="print">Yazdırılsın mı?</param>
-        /// <returns>HostResponse</returns>
         public async Task<HostResponse> PushHostFromFileAsync(string filePath, DataFormat format,
             string? printerName = null, string? designPath = null, bool design = false, bool print = true)
         {
@@ -37,7 +30,6 @@
 
                 var fileContent = await File.ReadAllTextAsync(filePath);
 
-                // Format doğrulaması
                 if (!await ValidateDataFormatAsync(fileContent, format))
                 {
                     return new HostResponse
@@ -65,13 +57,6 @@
         /// <summary>
         /// String veriyi doğrudan host'a gönderir
         /// </summary>
-        /// <param name="data">JSON veya XML string verisi</param>
-        /// <param name="format">DataFormat.JSON veya DataFormat.XML</param>
-        /// <param name="printerName">Yazıcı adı (null ise varsayılan kullanılır)</param>
-        /// <param name="designPath">Tasarım dosyası yolu (null ise varsayılan kullanılır)</param>
-        /// <param name="design">Tasarım modunda açılsın mı?</param>
-        /// <param name="print">Yazdırılsın mı?</param>
-        /// <returns>HostResponse</returns>
         public async Task<HostResponse> PushHostAsync(string data, DataFormat format,
             string? printerName = null, string? designPath = null, bool design = false, bool print = true)
         {
@@ -86,7 +71,6 @@
                     };
                 }
 
-                // Format doğrulaması
                 if (!await ValidateDataFormatAsync(data, format))
                 {
                     return new HostResponse
@@ -110,13 +94,233 @@
                 };
             }
         }
-    }
-}
 
         /// <summary>
         /// Object'i JSON'a çevirip host'a gönderir
         /// </summary>
-        /// <param name="dataObject">JSON'a çevrilecek object</param>
-        /// <param name="printerName">Yazıcı adı (null ise varsayılan kullanılır)</param>
-        /// <param name="designPath">Tasarım dosyası yolu (null ise varsayılan kullanılır)</param>
-        /// <param name="design">Tasarım modunda
+        public async Task<HostResponse> PushHostFromObjectAsync(object dataObject,
+            string? printerName = null, string? designPath = null, bool design = false, bool print = true)
+        {
+            try
+            {
+                if (dataObject == null)
+                {
+                    return new HostResponse
+                    {
+                        Success = false,
+                        Message = "Data object cannot be null"
+                    };
+                }
+
+                var jsonData = JsonSerializer.Serialize(dataObject, new JsonSerializerOptions
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                    WriteIndented = true
+                });
+
+                _logger?.LogInformation($"Pushing object as JSON, Type: {dataObject.GetType().Name}");
+
+                return await _hostService.PushHostAsync(jsonData, DataFormat.JSON, printerName, designPath, design, print);
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex, "Error pushing object as JSON");
+                return new HostResponse
+                {
+                    Success = false,
+                    Message = $"Error serializing object: {ex.Message}"
+                };
+            }
+        }
+
+        /// <summary>
+        /// SQL sorgusu çalıştırır ve sonucu host'a gönderir
+        /// </summary>
+        public async Task<HostResponse> PushHostFromSqlAsync(string sqlQuery, string connectionString,
+            string? printerName = null, string? designPath = null, bool design = false, bool print = true)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(sqlQuery))
+                {
+                    return new HostResponse
+                    {
+                        Success = false,
+                        Message = "SQL query cannot be null or empty"
+                    };
+                }
+
+                if (string.IsNullOrWhiteSpace(connectionString))
+                {
+                    return new HostResponse
+                    {
+                        Success = false,
+                        Message = "Connection string cannot be null or empty"
+                    };
+                }
+
+                _logger?.LogInformation($"Pushing SQL query, Length: {sqlQuery.Length}");
+
+                var request = new HostRequest
+                {
+                    DataType = "sql",
+                    Data = sqlQuery,
+                    ConnectionString = connectionString,
+                    ReportTemplate = designPath ?? "",
+                    Action = design ? "design" : (print ? "print" : "export"),
+                    PrinterName = printerName
+                };
+
+                return await _hostService.SendRequestAsync(request);
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex, "Error pushing SQL query");
+                return new HostResponse
+                {
+                    Success = false,
+                    Message = $"Error: {ex.Message}"
+                };
+            }
+        }
+
+        /// <summary>
+        /// Dosya seçici açar ve seçilen dosyayı host'a gönderir
+        /// </summary>
+        public async Task<HostResponse> PushHostFromFilePickerAsync(
+            string? printerName = null, string? designPath = null, bool design = false, bool print = true)
+        {
+            try
+            {
+                var customFileTypes = new Dictionary<DevicePlatform, IEnumerable<string>>
+                {
+                    { DevicePlatform.WinUI, new[] { ".json", ".xml" } },
+                    { DevicePlatform.Android, new[] { "application/json", "text/xml" } },
+                    { DevicePlatform.iOS, new[] { "public.json", "public.xml" } }
+                };
+
+                var customFileType = new FilePickerFileType(customFileTypes);
+
+                var result = await FilePicker.Default.PickAsync(new PickOptions
+                {
+                    PickerTitle = "JSON veya XML Dosyası Seçin",
+                    FileTypes = customFileType
+                });
+
+                if (result == null)
+                {
+                    return new HostResponse
+                    {
+                        Success = false,
+                        Message = "File selection cancelled"
+                    };
+                }
+
+                var extension = Path.GetExtension(result.FileName).ToLower();
+                var format = extension switch
+                {
+                    ".json" => DataFormat.JSON,
+                    ".xml" => DataFormat.XML,
+                    _ => throw new NotSupportedException($"Unsupported file format: {extension}")
+                };
+
+                return await PushHostFromFileAsync(result.FullPath, format, printerName, designPath, design, print);
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex, "Error in file picker operation");
+                return new HostResponse
+                {
+                    Success = false,
+                    Message = $"File picker error: {ex.Message}"
+                };
+            }
+        }
+
+        /// <summary>
+        /// Veri formatını doğrular
+        /// </summary>
+        private async Task<bool> ValidateDataFormatAsync(string data, DataFormat format)
+        {
+            return await Task.Run(() =>
+            {
+                try
+                {
+                    switch (format)
+                    {
+                        case DataFormat.JSON:
+                            JsonDocument.Parse(data);
+                            return true;
+
+                        case DataFormat.XML:
+                            System.Xml.Linq.XDocument.Parse(data);
+                            return true;
+
+                        case DataFormat.SQL:
+                            return !string.IsNullOrWhiteSpace(data);
+
+                        default:
+                            return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger?.LogWarning(ex, $"Data format validation failed for {format}");
+                    return false;
+                }
+            });
+        }
+
+        public bool IsConnected => _hostService.IsConnected;
+
+        public async Task<bool> ConnectAsync(string hostIP, int hostPort, int timeoutMs = 5000)
+        {
+            return await _hostService.ConnectAsync(hostIP, hostPort, timeoutMs);
+        }
+
+        public async Task DisconnectAsync()
+        {
+            await _hostService.DisconnectAsync();
+        }
+
+        public async Task<HostResponse> TestConnectionAsync(string hostIP, int hostPort)
+        {
+            try
+            {
+                var connected = await ConnectAsync(hostIP, hostPort, 5000);
+
+                if (connected)
+                {
+                    await DisconnectAsync();
+                    return new HostResponse
+                    {
+                        Success = true,
+                        Message = "Connection test successful"
+                    };
+                }
+                else
+                {
+                    return new HostResponse
+                    {
+                        Success = false,
+                        Message = "Connection test failed"
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex, "Error testing connection");
+                return new HostResponse
+                {
+                    Success = false,
+                    Message = $"Connection test error: {ex.Message}"
+                };
+            }
+        }
+
+        public void Dispose()
+        {
+            _hostService?.Dispose();
+        }
+    }
+}

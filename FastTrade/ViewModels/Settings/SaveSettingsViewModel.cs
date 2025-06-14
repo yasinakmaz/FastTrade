@@ -3,6 +3,8 @@
     public partial class SaveSettingsViewModel : ObservableObject
     {
         private readonly IPrinterService _printerService;
+        private readonly EasyHostService _easyHostService;
+        private readonly ISettingsService settingsService;
 
         #region Properties
         [ObservableProperty]
@@ -37,6 +39,9 @@
 
         [ObservableProperty]
         private bool isDatabaseConnecting;
+
+        [ObservableProperty]
+        private string result = string.Empty;
         #endregion
 
         #region Collections
@@ -44,9 +49,11 @@
         public ObservableCollection<string> printers { get; } = new ObservableCollection<string>();
         #endregion
 
-        public SaveSettingsViewModel(IPrinterService printerService)
+        public SaveSettingsViewModel(IPrinterService printerService,EasyHostService easyHostService, ISettingsService settingsService)
         {
             _printerService = printerService;
+            _easyHostService = easyHostService;
+            this.settingsService = settingsService;
             _ = InitializeAsync();
         }
 
@@ -55,6 +62,33 @@
             await LoadSettingsAsync();
             await LoadPrintersAsync();
         }
+
+        #region Host Settings Command
+        [RelayCommand]
+        private async Task GetDesign()
+        {
+            try
+            {
+                string jsonData = """
+                [
+                    {"Ürün": "Laptop", "Fiyat": 15000, "Adet": 2},
+                    {"Ürün": "Mouse", "Fiyat": 250, "Adet": 5}
+                ]
+                """;
+
+                var response = await _easyHostService.PushHostAsync(
+                    data: jsonData,
+                    format: DataFormat.JSON,
+                    print: false,
+                    design: true
+                );
+            }
+            catch (Exception ex)
+            {
+                await ShowErrorAsync("Sistem", $"Hata: {ex.Message}");
+            }
+        }
+        #endregion
 
         #region File Picker Command
 

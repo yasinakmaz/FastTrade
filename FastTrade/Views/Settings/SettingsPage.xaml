@@ -47,7 +47,7 @@
                     <buttons:SfButton x:Name="BtnDefaultDesign" Command="{Binding GetDesignFilePickerCommand}" Grid.Column="1" Style="{StaticResource SfBtn}" Text="Seç"/>
                 </Grid>
 
-                <buttons:SfButton x:Name="BtnFastReportDesignChange" Grid.Column="1" Style="{StaticResource SfBtn}" Text="Tasarım Düzenle"/>
+                <buttons:SfButton x:Name="BtnFastReportDesignChange" Command="{Binding GetDesignCommand}" Grid.Column="1" Style="{StaticResource SfBtn}" Text="Tasarım Düzenle"/>
 
                 <buttons:SfButton x:Name="BtnHostConnectionTest" Grid.Column="2" Style="{StaticResource SfBtn}" Text="Bağlantı Testi"/>
             </Grid>

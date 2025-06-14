@@ -68,6 +68,7 @@
         <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource White},Light={StaticResource Black}}"/>
         <Setter Property="FontFamily" Value="EthosNovaBold"/>
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource ThirdyDark}, Light={StaticResource ThirdyWhite}}"/>
+        <Setter Property="IsSpellCheckEnabled" Value="False"/>
         <Setter Property="ReturnType" Value="Next"/>
     </Style>
 
@@ -124,7 +125,7 @@
     <Style TargetType="datagrid:SfDataGrid" x:Key="DataGridStandart">
         <Setter Property="AutoGenerateColumnsMode" Value="None"/>
         <Setter Property="SelectionMode" Value="Single"/>
-        <Setter Property="NavigationMode" Value="Row"/>
+        <Setter Property="NavigationMode" Value="Cell"/>
         <Setter Property="ColumnWidthMode" Value="Auto"/>
         <Setter Property="HorizontalScrollBarVisibility" Value="Always"/>
         <Setter Property="SortingMode" Value="Multiple"/>
@@ -140,7 +141,7 @@
         <Setter Property="EnableDataVirtualization" Value="False"/>
         <Setter Property="DefaultStyle">
             <datagrid:DataGridStyle ColumnResizingIndicatorColor="{StaticResource Blue}" 
-                                    SortIconColor="{StaticResource Blue}" 
+                                    SortIconColor="{StaticResource Blue}"
                                     ColumnDraggingIndicatorLineColor="{StaticResource Blue}"
                                     ColumnDragViewBackgroundColor="{AppThemeBinding Dark={StaticResource ThirdyWhite},Light={StaticResource ThirdyDark}}"
                                     ColumnDragViewTextColor="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource White}}"
@@ -153,8 +154,9 @@
                                     RowBackground="{AppThemeBinding Dark={StaticResource SecondaryDark}, Light={StaticResource SecondaryWhite}}"
                                     RowTextColor="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}"
                                     AlternateRowBackground="{StaticResource Blue}"
-                                    UnboundRowBackground="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}"
-                                    SelectionBackground="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}"
+                                    CurrentCellBorderColor="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource White}}"
+                                    UnboundRowBackground="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource Black}}"
+                                    SelectionBackground="{AppThemeBinding Dark={StaticResource ThirdyWhite}, Light={StaticResource Black}}"
                                     SelectedRowTextColor="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource White}}"/>
         </Setter>
         <Setter Property="EmptyView">
