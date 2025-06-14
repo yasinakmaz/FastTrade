@@ -48,6 +48,14 @@ global using FastTrade.Services.HostServices;
 global using FastTrade.Services.Settings;
 global using FastTrade.Models.Product;
 global using FastTrade.Data;
+global using Microsoft.EntityFrameworkCore.Diagnostics;
+global using FastTrade.ViewModels.Stock;
+global using Microsoft.Extensions.Logging.Abstractions;
+global using FastTrade.Views.Settings;
+global using FastTrade.Views.Stock;
+global using CommunityToolkit.Maui;
+global using CommunityToolkit.Maui.Core;
+
 
 #if WINDOWS
 global using System.Drawing.Printing;

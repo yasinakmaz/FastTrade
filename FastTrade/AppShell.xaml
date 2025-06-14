@@ -7,7 +7,7 @@
     xmlns:stock="clr-namespace:FastTrade.Views.Stock"
     Shell.FlyoutBehavior="{OnIdiom Default=Flyout, Desktop=Locked, Phone=Flyout, Tablet=Flyout}"
     Shell.NavBarIsVisible="{OnIdiom Default=False, Desktop=False, Phone=True, Tablet=True}"
-    Title="FastTrade">
+    Title="Fast Trade">
 
     <ShellContent
         Title="Ayarlar"
@@ -23,4 +23,46 @@
         Title="Stok Yönetimi"
         ContentTemplate="{DataTemplate stock:ManageStock}"
         Route="ManageStock" />
+
+    <Shell.ItemTemplate>
+        <DataTemplate>
+            <Grid
+            ColumnDefinitions=".2*, .8*"
+            HeightRequest="75"
+            RowSpacing="0">
+                <Rectangle
+                x:Name="background"
+                Grid.ColumnSpan="2"
+                Fill="Black"
+                Opacity=".5" />
+                <Image
+                HeightRequest="30"
+                Source="{Binding FlyoutIcon}"
+                VerticalOptions="Center" />
+                <Label
+                Grid.Column="1"
+                Margin="20,0,0,0"
+                FontSize="20"
+                Text="{Binding Title}"
+                TextColor="White"
+                VerticalOptions="Center" />
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter TargetName="background" Property="Rectangle.Fill" Value="Black" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Selected">
+                                <VisualState.Setters>
+                                    <Setter TargetName="background" Property="Rectangle.Fill" Value="DarkRed" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </VisualStateManager.VisualStateGroups>
+            </Grid>
+        </DataTemplate>
+    </Shell.ItemTemplate>
 </Shell>

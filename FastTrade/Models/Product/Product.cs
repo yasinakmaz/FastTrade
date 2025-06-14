@@ -14,5 +14,6 @@
         public decimal PURCHASEPRICE { get; set; }
         public bool? IsEnabled { get; set; }
         public bool? IsPurchase { get; set; }
+        public DateTime? ModifiedDate { get; set; }
     }
 }

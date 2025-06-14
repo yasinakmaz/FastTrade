@@ -36,7 +36,7 @@
             SpecialCodes.Add(new SpecialCodeItem
             {
                 SpecialcodeName = "",
-                SpecialcodeCode = ""
+                SpecialcodeCode = "",
             });
         }
 
@@ -55,6 +55,8 @@
                         ENVANTER = 1,
                         PRICE = Price,
                         PURCHASEPRICE = PurchasePrice,
+                        IsEnabled = true,
+                        IsPurchase = false,
                     };
 
                     await dbcontext.Product.AddAsync(product);
@@ -99,7 +101,7 @@
 
         partial void OnGuidChanged(string? value)
         {
-            if (!string.IsNullOrWhiteSpace(value) && value.Length > 15)
+            if (!string.IsNullOrWhiteSpace(value) && value.Length > 3)
             {
                 _ = FindGUID();
             }
@@ -110,11 +112,11 @@
         {
             try
             {
-                if(Guid?.Length > 15)
+                if(Guid?.Length > 3)
                 {
                     using (var dbcontext = new ProductDbContext())
                     {
-                        bool IsFind = await dbcontext.Product.Select(p => p.GUID == Guid).FirstOrDefaultAsync();
+                        bool IsFind = await dbcontext.Product.Where(p => p.IsEnabled == true).Select(p => p.GUID == Guid).FirstOrDefaultAsync();
                         if (IsFind)
                         {
                             await Shell.Current.DisplayAlert("Sistem", "Bu GUID zaten kullanılıyor. Lütfen farklı bir GUID girin.", "Tamam");

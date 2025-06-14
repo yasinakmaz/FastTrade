@@ -13,34 +13,41 @@
              xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
              xmlns:signaturepad="clr-namespace:Syncfusion.Maui.SignaturePad;assembly=Syncfusion.Maui.SignaturePad"
              xmlns:vmStock="clr-namespace:FastTrade.ViewModels.Stock"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:DataType="vmStock:ManageStockViewModel"
              Title="Stok Yönetimi">
-
-    <ContentPage.BindingContext>
-        <vmStock:ManageStockViewModel/>
-    </ContentPage.BindingContext>
 
     <Grid Margin="10">
         <VerticalStackLayout Spacing="10">
 
-            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+            <Grid ColumnDefinitions="*,*,*" ColumnSpacing="10">
                 <Label Grid.Column="0" HorizontalOptions="Start" Style="{StaticResource LblHeader}" Text="Stok Yönetimi"/>
-                <buttons:SfButton Grid.Column="1" HorizontalOptions="End" Style="{StaticResource SfBtn}" Command="{Binding GetProductLoadCommand}" Text="Listele"/>
+                <buttons:SfButton Grid.Column="1" HorizontalOptions="Center" Style="{StaticResource SfBtn}" Command="{Binding GetProductLoadCommand}" Text="Listele"/>
+                <Button Grid.Column="2" HorizontalOptions="End" Command="{Binding SaveChangesCommand}" Style="{StaticResource BtnStandart}" Text="Değişikleri Kaydet">
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button" 
+                                 Binding="{Binding HasUnsavedChanges}" 
+                                 Value="True">
+                            <Setter Property="BackgroundColor" Value="Red" />
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
             </Grid>
 
             <Border Style="{StaticResource BrdStandart}"/>
 
-            <datagrid:SfDataGrid ItemsSource="{Binding Products}" Style="{StaticResource DataGridStandart}" ColumnWidthMode="Fill">
+            <datagrid:SfDataGrid x:Name="ProductDtg" CellRightTapped="ProductDtg_CellRightTapped" EditTapAction="OnDoubleTap" ItemsSource="{Binding Products}" CurrentCellEndEdit="ProductDtg_CurrentCellEndEdit" AllowEditing="True" Style="{StaticResource DataGridStandart}" ColumnWidthMode="Fill">
                 <datagrid:SfDataGrid.Columns>
-                    <datagrid:DataGridNumericColumn MappingName="IND" HeaderText="IND" Format="0"/>
-                    <datagrid:DataGridTextColumn MappingName="GUID" HeaderText="GUID"/>
-                    <datagrid:DataGridTextColumn MappingName="CODE" HeaderText="Stok Kodu"/>
-                    <datagrid:DataGridTextColumn MappingName="NAME" HeaderText="Stok Adı"/>
-                    <datagrid:DataGridNumericColumn MappingName="ENVANTER" HeaderText="ENVANTER" Format="0"/>
-                    <datagrid:DataGridNumericColumn MappingName="PRICE" HeaderText="PRICE" Format="C2"/>
-                    <datagrid:DataGridNumericColumn MappingName="PURCHASEPRICE" HeaderText="PURCHASEPRICE" Format="C2"/>
-                    <datagrid:DataGridCheckBoxColumn MappingName="IsEnabled" HeaderText="Aktif"/>
-                    <datagrid:DataGridCheckBoxColumn MappingName="IsPurchase" HeaderText="Satışı Yapıldı"/>
+                    <datagrid:DataGridNumericColumn MappingName="IND" HeaderText="IND" Format="0" AllowEditing="False"/>
+                    <datagrid:DataGridTextColumn MappingName="GUID" HeaderText="GUID" AllowEditing="True"/>
+                    <datagrid:DataGridTextColumn MappingName="CODE" HeaderText="Stok Kodu" AllowEditing="True"/>
+                    <datagrid:DataGridTextColumn MappingName="NAME" HeaderText="Stok Adı" AllowEditing="True"/>
+                    <datagrid:DataGridNumericColumn MappingName="ENVANTER" HeaderText="Envanter" Format="0" AllowEditing="True"/>
+                    <datagrid:DataGridNumericColumn MappingName="PRICE" HeaderText="Satış Fiyatı" Format="C2" AllowEditing="True"/>
+                    <datagrid:DataGridNumericColumn MappingName="PURCHASEPRICE" HeaderText="Alış Fiyatı" Format="C2" AllowEditing="True"/>
+                    <datagrid:DataGridCheckBoxColumn MappingName="IsEnabled" HeaderText="Aktif" AllowEditing="True"/>
+                    <datagrid:DataGridCheckBoxColumn MappingName="IsPurchase" HeaderText="Satışı Yapıldı" AllowEditing="True"/>
+                    <datagrid:DataGridDateColumn MappingName="ModifiedDate" HeaderText="Değiştirme Tarihi" Format="dd.MM.yyyy HH:mm" AllowEditing="False"/>
                 </datagrid:SfDataGrid.Columns>
             </datagrid:SfDataGrid>
 

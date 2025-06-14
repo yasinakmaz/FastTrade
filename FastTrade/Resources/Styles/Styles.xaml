@@ -159,14 +159,6 @@
                                     SelectionBackground="{AppThemeBinding Dark={StaticResource ThirdyWhite}, Light={StaticResource Black}}"
                                     SelectedRowTextColor="{AppThemeBinding Dark={StaticResource Black}, Light={StaticResource White}}"/>
         </Setter>
-        <Setter Property="EmptyView">
-            <Setter.Value>
-                <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
-                    <Label Text="🙁" FontSize="Header" VerticalOptions="Center" HorizontalOptions="Center"/>
-                    <Label VerticalOptions="Center" HorizontalOptions="Center" Text="Burası Boş Görünüyor Lütfen Listeleyiniz!" Style="{StaticResource LblHeader}"/>
-                </StackLayout>
-            </Setter.Value>
-        </Setter>
     </Style>
 
     <Style TargetType="popup:SfPopup" x:Key="PopupStd">
