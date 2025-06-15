@@ -10,14 +10,6 @@ public partial class ManageStock : ContentPage
         BindingContext = _manageStockViewModel;
     }
 
-    private async void ProductDtg_CurrentCellEndEdit(object sender, DataGridCurrentCellEndEditEventArgs e)
-    {
-        await MainThread.InvokeOnMainThreadAsync(async () =>
-        {
-            _manageStockViewModel.OnCellValueChanged();
-        });
-    }
-
     protected override async void OnDisappearing()
     {
         if (_manageStockViewModel.HasUnsavedChanges)
@@ -59,10 +51,13 @@ public partial class ManageStock : ContentPage
             {
                 await _manageStockViewModel.GetProductSpecialCodeCommand.ExecuteAsync(selectedProduct.IND);
             }
+            await ProductPop.ShowAsync();
         }
         catch (Exception ex)
         {
             await DisplayAlert("Hata", $"Ýþlem sýrasýnda hata: {ex.Message}", "Tamam");
         }
     }
+
+
 }

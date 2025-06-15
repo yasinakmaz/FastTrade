@@ -46,7 +46,7 @@ namespace FastTrade.ViewModels.Stock
         {
             _context = new ProductDbContext();
         }
-
+        #region Data Commands
         [RelayCommand]
         private async Task GetProductLoadAsync()
         {
@@ -217,7 +217,6 @@ namespace FastTrade.ViewModels.Stock
                 if (_context == null) return;
 
                 var specialCodes = await _context.ProductSpecialCode
-                    .AsNoTracking()
                     .Where(p => p.STOCKIND == ProductIND)
                     .OrderBy(a => a.NAME)
                     .ToListAsync();
@@ -249,5 +248,6 @@ namespace FastTrade.ViewModels.Stock
                 IsLoading = false;
             }
         }
+        #endregion
     }
 }

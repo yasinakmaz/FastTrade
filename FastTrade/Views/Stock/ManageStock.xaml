@@ -36,7 +36,7 @@
 
             <Border Style="{StaticResource BrdStandart}"/>
 
-            <datagrid:SfDataGrid x:Name="ProductDtg" CellRightTapped="ProductDtg_CellRightTapped" EditTapAction="OnDoubleTap" ItemsSource="{Binding Products}" CurrentCellEndEdit="ProductDtg_CurrentCellEndEdit" AllowEditing="True" Style="{StaticResource DataGridStandart}" ColumnWidthMode="Fill">
+            <datagrid:SfDataGrid x:Name="ProductDtg" AllowDraggingRow="False" CellRightTapped="ProductDtg_CellRightTapped" EditTapAction="OnDoubleTap" ItemsSource="{Binding Products}" AllowEditing="True" AllowDeleting="False" Style="{StaticResource DataGridStandart}" ColumnWidthMode="Fill">
                 <datagrid:SfDataGrid.Columns>
                     <datagrid:DataGridNumericColumn MappingName="IND" HeaderText="IND" Format="0" AllowEditing="False"/>
                     <datagrid:DataGridTextColumn MappingName="GUID" HeaderText="GUID" AllowEditing="True"/>
@@ -52,6 +52,27 @@
             </datagrid:SfDataGrid>
 
         </VerticalStackLayout>
+
+        <popup:SfPopup x:Name="ProductPop" HeaderTitle="Stok Ayrıntıları" Style="{StaticResource PopupStd}" IsFullScreen="False" HeightRequest="400" WidthRequest="500">
+            <popup:SfPopup.ContentTemplate>
+                <DataTemplate>
+                    <Grid RowDefinitions="*,auto">
+
+                        <datagrid:SfDataGrid Grid.Row="0" ItemsSource="{Binding ProductSpecialCode}" HeightRequest="170" ColumnWidthMode="Fill" Style="{StaticResource DataGridStandart}">
+                            <datagrid:SfDataGrid.Columns>
+                                <datagrid:DataGridTextColumn MappingName="NAME" HeaderText="Özel Kod"/>
+                                <datagrid:DataGridTextColumn MappingName="CODE" HeaderText="Değer"/>
+                            </datagrid:SfDataGrid.Columns>
+                        </datagrid:SfDataGrid>
+
+                        <Grid Grid.Row="1" ColumnDefinitions="*,*" ColumnSpacing="10">
+                            <buttons:SfButton Grid.Column="0" Style="{StaticResource SfBtn}" Text="Özel Kodu Sil"/>
+                            <buttons:SfButton Grid.Column="1" Style="{StaticResource SfBtn}" Text="Kaydet"/>
+                        </Grid>
+                    </Grid>
+                </DataTemplate>
+            </popup:SfPopup.ContentTemplate>            
+        </popup:SfPopup>
     </Grid>
     
 </ContentPage>
