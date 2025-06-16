@@ -2,11 +2,13 @@ namespace FastTrade.Views.Stock;
 
 public partial class ManageStock : ContentPage
 {
-	private ManageStockViewModel _manageStockViewModel;
-	public ManageStock()
-	{
-		InitializeComponent();
-		_manageStockViewModel = new ManageStockViewModel();
+    private ManageStockViewModel _manageStockViewModel;
+    private int _selectedProductInd;
+
+    public ManageStock()
+    {
+        InitializeComponent();
+        _manageStockViewModel = new ManageStockViewModel();
         BindingContext = _manageStockViewModel;
     }
 
@@ -20,19 +22,13 @@ public partial class ManageStock : ContentPage
                 "Evet",
                 "Hayýr");
 
-            if (result)
-            {
-                base.OnDisappearing();
-            }
-            else
+            if (!result)
             {
                 return;
             }
         }
-        else
-        {
-            base.OnDisappearing();
-        }
+
+        base.OnDisappearing();
     }
 
     protected override void OnAppearing()
@@ -43,12 +39,15 @@ public partial class ManageStock : ContentPage
             _manageStockViewModel.GetProductLoadCommand.Execute(null);
         }
     }
+
     private async void ProductDtg_CellRightTapped(object sender, DataGridCellRightTappedEventArgs e)
     {
         try
         {
             if (e.RowData is Product selectedProduct)
             {
+                _selectedProductInd = selectedProduct.IND;
+                _manageStockViewModel.Ind = selectedProduct.IND;
                 await _manageStockViewModel.GetProductSpecialCodeCommand.ExecuteAsync(selectedProduct.IND);
             }
             await ProductPop.ShowAsync();
@@ -59,5 +58,51 @@ public partial class ManageStock : ContentPage
         }
     }
 
+    private async void ProductSpecialDtg_CellRightTapped(object sender, DataGridCellRightTappedEventArgs e)
+    {
+        try
+        {
+            if (e.RowData is ProductSpecialCode selectedProductSpecialCode)
+            {
+                bool onay = await DisplayAlert("Sistem",
+                    $"{selectedProductSpecialCode.NAME} Özel Kodunu Silmek Ýstiyormusunuz?",
+                    "Evet", "Hayýr");
 
+                if (onay)
+                {
+                    await _manageStockViewModel.DeleteProductSpecialCodeCommand.ExecuteAsync(selectedProductSpecialCode.IND);
+                }
+                else
+                {
+                    await DisplayAlert("Sistem", "Ýþlem Ýptal Edildi", "Tamam");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Hata", $"Ýþlem sýrasýnda hata: {ex.Message}", "Tamam");
+        }
+    }
+
+    private async void IsSaveSpecialCodeLast_Clicked(object sender, EventArgs e)
+    {
+        try
+        {
+            await _manageStockViewModel.AddLastSaveSpeacialCodeCommand.ExecuteAsync(_selectedProductInd);
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Hata", $"Ýþlem sýrasýnda hata: {ex.Message}", "Tamam");
+        }
+    }
+
+    private void ProductDtg_CellValueChanged(object sender, DataGridCellValueChangedEventArgs e)
+    {
+        _manageStockViewModel.OnCellValueChanged();
+    }
+
+    private void ProductSpecialDtg_CellValueChanged(object sender, DataGridCellValueChangedEventArgs e)
+    {
+        _manageStockViewModel.OnSpecialCodeCellValueChanged();
+    }
 }

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FastTrade.Views.Users.AddUserPage"
+             xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+             xmlns:chart="clr-namespace:Syncfusion.Maui.Charts;assembly=Syncfusion.Maui.Charts"
+             xmlns:datagrid="clr-namespace:Syncfusion.Maui.DataGrid;assembly=Syncfusion.Maui.DataGrid"
+             xmlns:listview="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
+             xmlns:inputs="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+             xmlns:pdfviewer="clr-namespace:Syncfusion.Maui.PdfViewer;assembly=Syncfusion.Maui.PdfViewer"
+             xmlns:popup="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
+             xmlns:tabview="clr-namespace:Syncfusion.Maui.TabView;assembly=Syncfusion.Maui.TabView"
+             xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+             xmlns:signaturepad="clr-namespace:Syncfusion.Maui.SignaturePad;assembly=Syncfusion.Maui.SignaturePad"
+             xmlns:vmUsers="clr-namespace:FastTrade.ViewModels.Users"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:DataType="vmUsers:ManageUsersViewModel"
+             Title="AddUserPage">
+
+    <ContentPage.BindingContext>
+        <vmUsers:ManageUsersViewModel/>
+    </ContentPage.BindingContext>
+
+    <Grid>
+        <VerticalStackLayout Spacing="10" Margin="10">
+
+            <Label Text="Kullanıcı Ekle" Style="{StaticResource LblHeader}"/>
+
+            <Entry Style="{StaticResource TxtEnt}" Text="{Binding Username}" Placeholder="Kullanıcı Adı"/>
+            <Entry Style="{StaticResource TxtEnt}" Text="{Binding Usernameandsurname}" Placeholder="Ad Soyad"/>
+
+            <Entry Style="{StaticResource TxtEnt}" Text="{Binding Usermail}" Placeholder="E-Mail"/>
+            <inputs:SfMaskedEntry Style="{StaticResource TxtMsc}" Value="{Binding Userphone}" Mask="000/000/00/00" Placeholder="GSM"/>
+
+            <Entry Style="{StaticResource TxtEnt}" Placeholder="Parola" Text="{Binding Password}" IsPassword="True"/>
+
+            <buttons:SfButton Style="{StaticResource SfBtn}" Command="{Binding AddUsersCommand}" Text="Kaydet"/>
+        </VerticalStackLayout>
+
+        <syncfusion:SfBusyIndicator Style="{StaticResource ActLoad}" IsRunning="{Binding IsLoading}" Title="{Binding Busytext}"/>
+    </Grid>
+    
+</ContentPage>

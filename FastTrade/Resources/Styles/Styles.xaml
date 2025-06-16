@@ -120,6 +120,9 @@
     <Style TargetType="syncfusion:SfBusyIndicator" x:Key="ActLoad">
         <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource White}, Light={StaticResource Black}}"/>
         <Setter Property="FontFamily" Value="EthosNovaBold"/>
+        <Setter Property="HorizontalOptions" Value="Center"/>
+        <Setter Property="VerticalOptions" Value="Center"/>
+        <Setter Property="ZIndex" Value="999"/>
     </Style>
 
     <Style TargetType="datagrid:SfDataGrid" x:Key="DataGridStandart">

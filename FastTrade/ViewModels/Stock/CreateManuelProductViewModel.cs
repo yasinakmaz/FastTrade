@@ -116,7 +116,7 @@
                 {
                     using (var dbcontext = new ProductDbContext())
                     {
-                        bool IsFind = await dbcontext.Product.Where(p => p.IsEnabled == true).Select(p => p.GUID == Guid).FirstOrDefaultAsync();
+                        bool IsFind = await dbcontext.Product.Where(p => p.IsEnabled == true && p.GUID == Guid).AnyAsync();
                         if (IsFind)
                         {
                             await Shell.Current.DisplayAlert("Sistem", "Bu GUID zaten kullanılıyor. Lütfen farklı bir GUID girin.", "Tamam");

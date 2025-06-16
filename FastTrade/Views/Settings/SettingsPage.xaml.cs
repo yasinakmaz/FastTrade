@@ -7,16 +7,4 @@ public partial class SettingsPage : ContentPage
         InitializeComponent();
         BindingContext = viewModel;
     }
-
-    private void BtnMenuBar_Clicked(object sender, EventArgs e)
-    {
-        try
-        {
-            navigationDrawer.ToggleDrawer();
-        }
-        catch (Exception ex)
-        {
-            System.Diagnostics.Debug.WriteLine($"{ex.Message}");
-        }
-    }
 }

@@ -92,11 +92,18 @@
 	  <MauiXaml Update="Views\Stock\ManageStock.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\Users\AddUserPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 	<ItemGroup Condition="$(TargetFramework.Contains('-windows'))">
 		<PackageReference Include="System.Drawing.Common" Version="9.0.0" />
 		<PackageReference Include="System.Management" Version="9.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Views\Invoice\" />
 	</ItemGroup>
 
 </Project>

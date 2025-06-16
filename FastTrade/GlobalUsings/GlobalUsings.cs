@@ -55,6 +55,7 @@ global using FastTrade.Views.Settings;
 global using FastTrade.Views.Stock;
 global using CommunityToolkit.Maui;
 global using CommunityToolkit.Maui.Core;
+global using FastTrade.Models.Users;
 
 
 #if WINDOWS

@@ -5,9 +5,21 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:settings="clr-namespace:FastTrade.Views.Settings"
     xmlns:stock="clr-namespace:FastTrade.Views.Stock"
-    Shell.NavBarIsVisible="False"
-    Shell.FlyoutBehavior="Disabled">
-    
+    xmlns:users="clr-namespace:FastTrade.Views.Users" 
+    Shell.NavBarIsVisible="{OnIdiom Desktop=False,Phone=True,Tablet=True,Default=False,Watch=True}"
+    Shell.ForegroundColor="White"
+    FlyoutBackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDark},Light={StaticResource PrimaryWhite}}"
+    Shell.FlyoutBehavior="{OnIdiom Default=Flyout,Desktop=Locked,Phone=Flyout,Tablet=Flyout,TV=Flyout,Watch=Flyout}">
+
+    <Shell.ItemTemplate>
+        <DataTemplate>
+            <Grid Padding="10" ColumnDefinitions="50,*">
+                <Image Grid.Column="0" Source="{Binding Icon}" WidthRequest="50" HeightRequest="50"/>
+                <Label Grid.Column="1" Text="{Binding Title}" Style="{StaticResource LblHeader}" VerticalOptions="Center"/>
+            </Grid>
+        </DataTemplate>
+    </Shell.ItemTemplate>
+
     <ShellContent
         Title="Ayarlar"
         ContentTemplate="{DataTemplate settings:SettingsPage}"
@@ -22,5 +34,10 @@
         Title="Stok Yönetimi"
         ContentTemplate="{DataTemplate stock:ManageStock}"
         Route="ManageStock" />
+
+    <ShellContent
+        Title="Kullanıcı Ekle"
+        ContentTemplate="{DataTemplate users:AddUserPage}"
+        Route="AddUserPage" />
 
 </Shell>

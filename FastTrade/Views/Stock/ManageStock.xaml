@@ -23,7 +23,7 @@
             <Grid ColumnDefinitions="*,*,*" ColumnSpacing="10">
                 <Label Grid.Column="0" HorizontalOptions="Start" Style="{StaticResource LblHeader}" Text="Stok Yönetimi"/>
                 <buttons:SfButton Grid.Column="1" HorizontalOptions="Center" Style="{StaticResource SfBtn}" Command="{Binding GetProductLoadCommand}" Text="Listele"/>
-                <Button Grid.Column="2" HorizontalOptions="End" Command="{Binding SaveChangesCommand}" Style="{StaticResource BtnStandart}" Text="Değişikleri Kaydet">
+                <Button Grid.Column="2" HorizontalOptions="End" Command="{Binding SaveChangesCommand}" Style="{StaticResource BtnStandart}" Text="Değişiklikleri Kaydet">
                     <Button.Triggers>
                         <DataTrigger TargetType="Button" 
                                  Binding="{Binding HasUnsavedChanges}" 
@@ -56,22 +56,33 @@
         <popup:SfPopup x:Name="ProductPop" HeaderTitle="Stok Ayrıntıları" Style="{StaticResource PopupStd}" IsFullScreen="False" HeightRequest="400" WidthRequest="500">
             <popup:SfPopup.ContentTemplate>
                 <DataTemplate>
-                    <Grid RowDefinitions="*,auto">
+                    <Grid RowDefinitions="auto,*,auto">
 
-                        <datagrid:SfDataGrid Grid.Row="0" ItemsSource="{Binding ProductSpecialCode}" HeightRequest="170" ColumnWidthMode="Fill" Style="{StaticResource DataGridStandart}">
+                        <buttons:SfButton Style="{StaticResource SfBtn}" Text="Özel Kod Ekle" Command="{Binding AddSpecialCodeCommand}"/>
+
+                        <datagrid:SfDataGrid Grid.Row="1" AllowDraggingRow="False" x:Name="ProductSpecialDtg" CellRightTapped="ProductSpecialDtg_CellRightTapped" EditTapAction="OnDoubleTap" ItemsSource="{Binding ProductSpecialCode}" AllowDeleting="True" AllowEditing="True" HeightRequest="170" ColumnWidthMode="Fill" Style="{StaticResource DataGridStandart}">
                             <datagrid:SfDataGrid.Columns>
                                 <datagrid:DataGridTextColumn MappingName="NAME" HeaderText="Özel Kod"/>
                                 <datagrid:DataGridTextColumn MappingName="CODE" HeaderText="Değer"/>
                             </datagrid:SfDataGrid.Columns>
                         </datagrid:SfDataGrid>
 
-                        <Grid Grid.Row="1" ColumnDefinitions="*,*" ColumnSpacing="10">
-                            <buttons:SfButton Grid.Column="0" Style="{StaticResource SfBtn}" Text="Özel Kodu Sil"/>
-                            <buttons:SfButton Grid.Column="1" Style="{StaticResource SfBtn}" Text="Kaydet"/>
+                        <Grid Grid.Row="2" ColumnDefinitions="*" ColumnSpacing="10">
+                            <buttons:SfButton Grid.Column="0" 
+                                    Style="{StaticResource SfBtn}" 
+                                    IsVisible="{Binding IsAddSpecialCodeLast}" 
+                                    Command="{Binding SaveSpecialCodeChangesCommand}" 
+                                    Text="Değişiklikleri Kaydet"/>
+                            <buttons:SfButton Grid.Column="0" 
+                                    x:Name="IsSaveSpecialCodeLast" 
+                                    IsVisible="{Binding IsSaveSpecialCodeLast}" 
+                                    Clicked="IsSaveSpecialCodeLast_Clicked" 
+                                    Style="{StaticResource SfBtn}" 
+                                    Text="Özel Kod Kaydet"/>
                         </Grid>
                     </Grid>
                 </DataTemplate>
-            </popup:SfPopup.ContentTemplate>            
+            </popup:SfPopup.ContentTemplate>
         </popup:SfPopup>
     </Grid>
     
