@@ -71,6 +71,58 @@
                     warnings.Log(CoreEventId.SensitiveDataLoggingEnabledWarning);
                 });
             }, ServiceLifetime.Singleton);
+
+            services.AddDbContextFactory<LoginDbContext>(options =>
+            {
+                options.UseSqlServer(sqloptions =>
+                {
+                    sqloptions.CommandTimeout(30);
+
+                    sqloptions.EnableRetryOnFailure(
+                        maxRetryCount: 5,
+                        maxRetryDelay: TimeSpan.FromSeconds(5),
+                        errorNumbersToAdd: null);
+
+                    sqloptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+                })
+
+                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
+                .EnableServiceProviderCaching(true)
+                .EnableDetailedErrors(true)
+
+                .ConfigureWarnings(warnings =>
+                {
+                    warnings.Ignore(CoreEventId.RowLimitingOperationWithoutOrderByWarning);
+                    warnings.Ignore(SqlServerEventId.DecimalTypeDefaultWarning);
+                    warnings.Log(CoreEventId.SensitiveDataLoggingEnabledWarning);
+                });
+            }, ServiceLifetime.Singleton);
+
+            services.AddDbContextFactory<UsersDbContext>(options =>
+            {
+                options.UseSqlServer(sqloptions =>
+                {
+                    sqloptions.CommandTimeout(30);
+
+                    sqloptions.EnableRetryOnFailure(
+                        maxRetryCount: 5,
+                        maxRetryDelay: TimeSpan.FromSeconds(5),
+                        errorNumbersToAdd: null);
+
+                    sqloptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+                })
+
+                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
+                .EnableServiceProviderCaching(true)
+                .EnableDetailedErrors(true)
+
+                .ConfigureWarnings(warnings =>
+                {
+                    warnings.Ignore(CoreEventId.RowLimitingOperationWithoutOrderByWarning);
+                    warnings.Ignore(SqlServerEventId.DecimalTypeDefaultWarning);
+                    warnings.Log(CoreEventId.SensitiveDataLoggingEnabledWarning);
+                });
+            }, ServiceLifetime.Singleton);
         }
 
         private static void RegisterViewModels(IServiceCollection services)
@@ -79,6 +131,7 @@
             services.AddScoped<LoadPublicSettings>();
             services.AddScoped<CreateManuelProductViewModel>();
             services.AddScoped<ManageStockViewModel>();
+            services.AddScoped<LoginViewModel>();
         }
 
         private static void RegisterViews(IServiceCollection services)
@@ -86,6 +139,7 @@
             services.AddScoped<SettingsPage>();
             services.AddScoped<AddManuelStock>();
             services.AddScoped<ManageStock>();
+            services.AddScoped<LoginPage>();
         }
     }
 

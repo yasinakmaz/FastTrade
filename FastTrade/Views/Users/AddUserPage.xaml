@@ -17,12 +17,14 @@
              x:DataType="vmUsers:ManageUsersViewModel"
              Title="AddUserPage">
 
-    <ContentPage.BindingContext>
-        <vmUsers:ManageUsersViewModel/>
-    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
     <Grid>
-        <VerticalStackLayout Spacing="10" Margin="10">
+        <VerticalStackLayout IsEnabled="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}" Spacing="10" Margin="10">
 
             <Label Text="Kullanıcı Ekle" Style="{StaticResource LblHeader}"/>
 
@@ -35,9 +37,28 @@
             <Entry Style="{StaticResource TxtEnt}" Placeholder="Parola" Text="{Binding Password}" IsPassword="True"/>
 
             <buttons:SfButton Style="{StaticResource SfBtn}" Command="{Binding AddUsersCommand}" Text="Kaydet"/>
+
+            <Grid>
+                <Label HorizontalOptions="Start" Style="{StaticResource LblHeader}" Text="Kayıtlar"/>
+                <buttons:SfButton HorizontalOptions="Center" Style="{StaticResource SfBtn}" Command="{Binding SaveChangesCommand}" Text="Değişiklikleri Kaydet"/>
+                <buttons:SfButton HorizontalOptions="End" Style="{StaticResource SfBtn}" Command="{Binding LoadUsersCommand}" Text="Listele"/>
+            </Grid>
+            
+            <datagrid:SfDataGrid ItemsSource="{Binding Users}" x:Name="UsersList" CellValueChanged="UsersList_CellValueChanged" EditTapAction="OnDoubleTap" AllowEditing="True" Style="{StaticResource DataGridStandart}" ColumnWidthMode="Fill">
+                <datagrid:SfDataGrid.Columns>
+                    <datagrid:DataGridNumericColumn MappingName="IND" HeaderText="IND" Format="0"/>
+                    <datagrid:DataGridTextColumn MappingName="UserName" HeaderText="Kullanıcı Adı"/>
+                    <datagrid:DataGridTextColumn MappingName="UserNameAndSurname" HeaderText="Ad Soyad"/>
+                    <datagrid:DataGridTextColumn MappingName="UserPhone" HeaderText="Telefon Numarası"/>
+                    <datagrid:DataGridTextColumn MappingName="UserPassword" HeaderText="Parola"/>
+                    <datagrid:DataGridCheckBoxColumn MappingName="IsEnabled" HeaderText="Aktif"/>
+                </datagrid:SfDataGrid.Columns>
+            </datagrid:SfDataGrid>
         </VerticalStackLayout>
 
-        <syncfusion:SfBusyIndicator Style="{StaticResource ActLoad}" IsRunning="{Binding IsLoading}" Title="{Binding Busytext}"/>
+        <Border Style="{StaticResource BrdStandart}" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="200" HeightRequest="100" IsEnabled="{Binding IsLoading}" IsVisible="{Binding IsLoading}">
+            <syncfusion:SfBusyIndicator Style="{StaticResource ActLoad}" IsRunning="{Binding IsLoading}" IsEnabled="{Binding IsLoading}" IsVisible="{Binding IsLoading}" Title="{Binding Busytext}"/>
+        </Border>
     </Grid>
     
 </ContentPage>

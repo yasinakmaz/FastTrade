@@ -13,15 +13,22 @@
              xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
              xmlns:signaturepad="clr-namespace:Syncfusion.Maui.SignaturePad;assembly=Syncfusion.Maui.SignaturePad"
              xmlns:vmStock="clr-namespace:FastTrade.ViewModels.Stock"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:DataType="vmStock:CreateManuelProductViewModel"
              Title="AddManuelStock">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
     <ContentPage.BindingContext>
         <vmStock:CreateManuelProductViewModel/>
     </ContentPage.BindingContext>
 
     <Grid Margin="10">
-        <VerticalStackLayout Spacing="10">
+        <VerticalStackLayout IsEnabled="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}" Spacing="10">
 
             <Label Style="{StaticResource LblHeader}" Text="Manuel Stok Kartı Açma"/>
 
@@ -63,6 +70,10 @@
                 <buttons:SfButton Grid.Column="1" Command="{Binding SaveProductCommand}" Style="{StaticResource SfBtn}" Text="Kaydet"/>
             </Grid>
         </VerticalStackLayout>
+
+        <Border Style="{StaticResource BrdStandart}" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="200" HeightRequest="100" IsEnabled="{Binding IsLoading}" IsVisible="{Binding IsLoading}">
+            <syncfusion:SfBusyIndicator Style="{StaticResource ActLoad}" IsRunning="{Binding IsLoading}" IsEnabled="{Binding IsLoading}" IsVisible="{Binding IsLoading}" Title="{Binding Busytext}"/>
+        </Border>
     </Grid>
     
 </ContentPage>

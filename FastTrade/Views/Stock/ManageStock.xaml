@@ -17,8 +17,14 @@
              x:DataType="vmStock:ManageStockViewModel"
              Title="Stok Yönetimi">
 
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <Grid Margin="10">
-        <VerticalStackLayout Spacing="10">
+        <VerticalStackLayout IsEnabled="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}" Spacing="10">
 
             <Grid ColumnDefinitions="*,*,*" ColumnSpacing="10">
                 <Label Grid.Column="0" HorizontalOptions="Start" Style="{StaticResource LblHeader}" Text="Stok Yönetimi"/>
@@ -84,6 +90,10 @@
                 </DataTemplate>
             </popup:SfPopup.ContentTemplate>
         </popup:SfPopup>
+
+        <Border Style="{StaticResource BrdStandart}" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="200" HeightRequest="100" IsEnabled="{Binding IsLoading}" IsVisible="{Binding IsLoading}">
+            <syncfusion:SfBusyIndicator Style="{StaticResource ActLoad}" IsRunning="{Binding IsLoading}" IsEnabled="{Binding IsLoading}" IsVisible="{Binding IsLoading}" Title="{Binding Busytext}"/>
+        </Border>
     </Grid>
     
 </ContentPage>

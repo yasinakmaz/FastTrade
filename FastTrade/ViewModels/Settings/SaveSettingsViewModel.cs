@@ -42,6 +42,12 @@
 
         [ObservableProperty]
         private string result = string.Empty;
+
+        [ObservableProperty]
+        private bool isLoading = false;
+
+        [ObservableProperty]
+        private string? busytext;
         #endregion
 
         #region Collections
@@ -69,6 +75,8 @@
         {
             try
             {
+                IsLoading = true;
+                Busytext = "Yükleniyor";
                 string jsonData = """
                 [
                     {"Ürün": "Laptop", "Fiyat": 15000, "Adet": 2},
@@ -87,6 +95,10 @@
             {
                 await ShowErrorAsync("Sistem", $"Hata: {ex.Message}");
             }
+            finally
+            {
+                IsLoading = false;
+            }
         }
         #endregion
 
@@ -97,6 +109,8 @@
         {
             try
             {
+                IsLoading = true;
+                Busytext = "Yükleniyor";
                 var customFileType = new FilePickerFileType(
                     new Dictionary<DevicePlatform, IEnumerable<string>>
                     {
@@ -123,6 +137,10 @@
             {
                 await ShowErrorAsync("Sistem", $"Dosya seçimi sırasında hata: {ex.Message}");
             }
+            finally
+            {
+                IsLoading = false;
+            }
         }
 
         #endregion
@@ -132,6 +150,8 @@
         {
             try
             {
+                IsLoading = true;
+                Busytext = "Yükleniyor";
                 IsLoadingPrinters = true;
                 printers.Clear();
 
@@ -164,6 +184,7 @@
             finally
             {
                 IsLoadingPrinters = false;
+                IsLoading = false;
             }
         }
 
@@ -185,6 +206,8 @@
 
             try
             {
+                IsLoading = true;
+                Busytext = "Yükleniyor";
                 var isAvailable = await _printerService.IsPrinterAvailableAsync(Defaultprinter);
                 if (isAvailable)
                 {
@@ -198,6 +221,10 @@
             catch (Exception ex)
             {
                 await ShowErrorAsync("Hata", $"Yazıcı testi sırasında hata: {ex.Message}");
+            }
+            finally
+            {
+                IsLoading = false;
             }
         }
         #endregion
@@ -232,6 +259,8 @@
         {
             try
             {
+                IsLoading = true;
+                Busytext = "Yükleniyor";
                 if (!string.IsNullOrWhiteSpace(Mssqlserver))
                     await SecureStorage.Default.SetAsync(PublicServices.MSSQLServer, Mssqlserver);
 
@@ -250,6 +279,10 @@
             {
                 await ShowErrorAsync("Hata", $"MSSQL ayarları kaydedilirken hata: {ex.Message}");
             }
+            finally
+            {
+                IsLoading = false;
+            }
         }
 
         [RelayCommand]
@@ -257,6 +290,8 @@
         {
             try
             {
+                IsLoading = true;
+                Busytext = "Yükleniyor";
                 if (!string.IsNullOrWhiteSpace(Hostip))
                     await SecureStorage.Default.SetAsync(PublicServices.HOSTIP, Hostip);
 
@@ -275,6 +310,10 @@
             {
                 await ShowErrorAsync("Hata", $"Host ayarları kaydedilirken hata: {ex.Message}");
             }
+            finally
+            {
+                IsLoading = false;
+            }
         }
 
         [RelayCommand]
@@ -282,12 +321,18 @@
         {
             try
             {
+                IsLoading = true;
+                Busytext = "Yükleniyor";
                 await SecureStorage.Default.SetAsync(PublicServices.FULLSCREEN, Fullscreen.ToString());
                 await ShowSuccessAsync("Sistem", "Uygulama ayarları kaydedildi");
             }
             catch (Exception ex)
             {
                 await ShowErrorAsync("Hata", $"Uygulama ayarları kaydedilirken hata: {ex.Message}");
+            }
+            finally
+            {
+                IsLoading = false;
             }
         }
         #endregion
@@ -298,6 +343,9 @@
         {
             try
             {
+                IsLoading = true;
+                Busytext = "Yükleniyor";
+
                 databases.Clear();
 
                 if (string.IsNullOrWhiteSpace(Mssqlserver) ||
@@ -335,6 +383,10 @@
             catch (Exception ex)
             {
                 await ShowErrorAsync("Hata", $"Beklenmeyen hata: {ex.Message}");
+            }
+            finally
+            {
+                IsLoading = false;
             }
         }
         #endregion

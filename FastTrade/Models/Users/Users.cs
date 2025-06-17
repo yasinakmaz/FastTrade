@@ -9,5 +9,6 @@
         public string? UserEmail { get; set; }
         public string? UserPhone { get; set; }
         public string? UserPassword { get; set; }
+        public bool? IsEnabled { get; set; }
     }
 }

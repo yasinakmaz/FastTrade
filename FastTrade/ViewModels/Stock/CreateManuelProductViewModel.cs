@@ -22,6 +22,10 @@
         private string? _specialcodeName;
         [ObservableProperty]
         private string? _specialcodeCode;
+        [ObservableProperty]
+        private bool isLoading;
+        [ObservableProperty]
+        private string? busytext;
 
         public ObservableCollection<SpecialCodeItem> SpecialCodes { get; } = new ObservableCollection<SpecialCodeItem>();
         public ObservableCollection<Product> Products { get; } = new ObservableCollection<Product>();
@@ -45,6 +49,8 @@
         {
             try
             {
+                IsLoading = true;
+                Busytext = "Yükleniyor...";
                 using (var dbcontext = new ProductDbContext())
                 {
                     var product = new Product
@@ -97,6 +103,11 @@
             {
                 await Shell.Current.DisplayAlert("Sistem", $"Genel Hata: {ex.Message}", "Tamam");
             }
+            finally
+            {
+                IsLoading = false;
+                Busytext = "Yükleniyor...";
+            }
         }
 
         partial void OnGuidChanged(string? value)
@@ -112,7 +123,9 @@
         {
             try
             {
-                if(Guid?.Length > 3)
+                IsLoading = true;
+                Busytext = "Yükleniyor...";
+                if (Guid?.Length > 3)
                 {
                     using (var dbcontext = new ProductDbContext())
                     {
@@ -139,6 +152,10 @@
             catch (Exception ex)
             {
                 await Shell.Current.DisplayAlert("Sistem", $"Genel Hata: {ex.Message}", "Tamam");
+            }
+            finally
+            {
+                IsLoading = false;
             }
         }
 

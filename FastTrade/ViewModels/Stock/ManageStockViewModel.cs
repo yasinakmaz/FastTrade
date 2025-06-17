@@ -33,6 +33,8 @@
         [ObservableProperty]
         private bool isLoading;
         [ObservableProperty]
+        private string? busytext;
+        [ObservableProperty]
         private bool isAddSpecialCodeLast = true;
         [ObservableProperty]
         private bool isSaveSpecialCodeLast = false;
@@ -56,6 +58,7 @@
             try
             {
                 IsLoading = true;
+                Busytext = "Yükleniyor...";
 
                 if (_context != null)
                 {
@@ -111,13 +114,14 @@
         {
             try
             {
+                IsLoading = true;
+                Busytext = "Yükleniyor...";
+
                 if (_context == null)
                 {
                     await Shell.Current.DisplayAlert("Sistem", "Veritabanı bağlantısı bulunamadı.", "Tamam");
                     return;
                 }
-
-                IsLoading = true;
 
                 var modifiedEntries = _context.ChangeTracker.Entries<Product>()
                     .Where(e => e.State == EntityState.Modified)
@@ -166,6 +170,7 @@
         {
             try
             {
+
                 if (_context == null) return;
 
                 foreach (var product in Products)
@@ -216,6 +221,7 @@
             try
             {
                 IsLoading = true;
+                Busytext = "Yükleniyor...";
 
                 if (_context == null) return;
 
@@ -255,6 +261,9 @@
         {
             try
             {
+                IsLoading = true;
+                Busytext = "Yükleniyor...";
+
                 if (_context == null) return;
 
                 foreach (var specialCode in ProductSpecialCode)
@@ -294,6 +303,10 @@
             {
                 Shell.Current.DisplayAlert("Sistem", $"Special Code Değişiklik Takibi Hatası: {ex.Message}", "Tamam");
             }
+            finally
+            {
+                IsLoading = false;
+            }
         }
 
         [RelayCommand]
@@ -301,13 +314,15 @@
         {
             try
             {
+                IsLoading = true;
+                Busytext = "Yükleniyor...";
+
                 if (_context == null)
                 {
                     await Shell.Current.DisplayAlert("Sistem", "Veritabanı bağlantısı bulunamadı.", "Tamam");
                     return;
                 }
 
-                IsLoading = true;
 
                 var modifiedEntries = _context.ChangeTracker.Entries<ProductSpecialCode>()
                     .Where(e => e.State == EntityState.Modified)
@@ -350,6 +365,7 @@
             try
             {
                 IsLoading = true;
+                Busytext = "Yükleniyor...";
 
                 if (_context == null)
                 {
@@ -386,8 +402,9 @@
             try
             {
                 IsLoading = true;
+                Busytext = "Yükleniyor...";
 
-                if(ProductSpecialCode.Count > 0)
+                if (ProductSpecialCode.Count > 0)
                 {
                     ProductSpecialCode.Clear();
                 }
@@ -418,6 +435,7 @@
             try
             {
                 IsLoading = true;
+                Busytext = "Yükleniyor...";
 
                 if (_context == null)
                 {

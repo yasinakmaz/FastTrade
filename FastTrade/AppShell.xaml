@@ -6,6 +6,7 @@
     xmlns:settings="clr-namespace:FastTrade.Views.Settings"
     xmlns:stock="clr-namespace:FastTrade.Views.Stock"
     xmlns:users="clr-namespace:FastTrade.Views.Users" 
+    xmlns:login="clr-namespace:FastTrade.Views.Login"
     Shell.NavBarIsVisible="{OnIdiom Desktop=False,Phone=True,Tablet=True,Default=False,Watch=True}"
     Shell.ForegroundColor="White"
     FlyoutBackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDark},Light={StaticResource PrimaryWhite}}"
@@ -39,5 +40,10 @@
         Title="Kullanıcı Ekle"
         ContentTemplate="{DataTemplate users:AddUserPage}"
         Route="AddUserPage" />
+
+    <ShellContent
+        Title="Giriş Sistemi"
+        ContentTemplate="{DataTemplate login:LoginPage}"
+        Route="LoginPage" />
 
 </Shell>
